@@ -1,2 +1,5 @@
 # QnA
-QnA is a copy of stackoverflow.com created on Ruby on Rails.
+
+QnA is a copy of Stackoverflow created on Ruby on Rails.
+
+
