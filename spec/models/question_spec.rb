@@ -8,6 +8,11 @@ RSpec.describe Question, type: :model do
   end
 
   describe 'associations' do
+    question = FactoryBot.build(:question)
+    answer = FactoryBot.build(:answer)
+    question.answers << answer
+
     it { should have_many(:answers) }
+    it { expect(question).to have_many(:answers).dependent(:destroy) }
   end
 end
