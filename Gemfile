@@ -14,11 +14,14 @@ gem 'jbuilder', '~> 2.7'
 # gem 'bcrypt', '~> 3.1.7'
 # gem 'image_processing', '~> 1.2'
 gem 'bootsnap', '>= 1.4.2', require: false
+gem 'decent_exposure', '~> 3.0'
+gem 'slim-rails'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 5.0.0'
   gem "factory_bot_rails"
+  gem 'rails-controller-testing'
 end
 
 group :development do
@@ -33,6 +36,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'webdrivers'
   gem 'shoulda-matchers', '~> 5.0'
+  gem 'database_cleaner-active_record'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
