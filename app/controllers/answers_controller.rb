@@ -1,10 +1,6 @@
 class AnswersController < ApplicationController
-  before_action :find_question, only: [:new, :create, :edit]
+  before_action :find_question, only: [:create, :edit]
   before_action :load_answer, only: [:edit, :update, :destroy]
-
-  def new
-    @answer = @question.answers.new
-  end
 
   def edit
   end
@@ -13,9 +9,9 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
 
     if @answer.save
-      redirect_to question_path(@question)
+      redirect_to question_path(@question), notice: 'Your answer successfully added.'
     else
-      render :new
+      redirect_to question_path(@question), notice: "Answer body can't be blank"
     end
   end
 

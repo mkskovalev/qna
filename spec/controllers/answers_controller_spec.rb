@@ -4,18 +4,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:answer) { create(:answer, question: question) }
 
-  describe 'GET #new' do
-    before { get :new, params: { question_id: question.id } }
-
-    it 'assigns a new Answer to @answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it 'renders new view' do
-      expect(response).to render_template :new
-    end
-  end
-
   describe 'GET #edit' do
     before { get :edit, params: { id: answer, question_id: question.id } }
 
@@ -47,7 +35,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'renders new view' do
         post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question.id }
-        expect(response).to render_template :new
+        expect(response).to redirect_to question_path(answer.question)
       end
     end
   end
@@ -72,11 +60,12 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
+      let!(:answer) { create(:answer, body: 'Some Body') }
       before { patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid), question_id: question.id } }
 
       it 'does not change answer' do
         question.reload
-        expect(answer.body).to eq 'MyText'
+        expect(answer.body).to eq 'Some Body'
       end
 
       it 're-renders edit view' do
