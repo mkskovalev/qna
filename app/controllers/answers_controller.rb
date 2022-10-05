@@ -8,6 +8,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answer_params)
+    @answer.user_id = current_user.id
 
     if @answer.save
       redirect_to question_path(@question), notice: 'Your answer successfully added.'
@@ -25,8 +26,12 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy
-    redirect_to question_path(@answer.question)
+    if @answer.user_id == current_user.id
+      @answer.destroy
+      redirect_to question_path(@answer.question), notice: 'Answer successfully deleted.'
+    else
+      redirect_to question_path(@answer.question), notice: "You can't delete someone else's answer."
+    end
   end
 
   private

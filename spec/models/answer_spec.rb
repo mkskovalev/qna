@@ -11,5 +11,8 @@ RSpec.describe Answer, type: :model do
   describe 'associations' do
     it { should belong_to(:question) }
     it { expect(answer.question).to_not be(nil) }
+
+    it { should belong_to(:author).class_name('User') }
+    it { expect(answer.user_id).to_not be(nil) }
   end
 end
