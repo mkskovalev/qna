@@ -125,7 +125,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'DELETE #destroy' do
     before { login(user) }
 
-    let!(:question) { create(:question) }
+    let!(:question) { create(:question, user_id: user.id) }
     let!(:answer) { Answer.create(body: 'ahaha', question: question) }
 
     it 'deletes the question' do

@@ -3,8 +3,11 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:answer) { create(:answer, question: question) }
+  let(:user) { create(:user) }
 
   describe 'GET #edit' do
+    before { login(user) }
+
     before { get :edit, params: { id: answer, question_id: question.id } }
 
     it 'assigns requested answer to @answer' do
@@ -17,6 +20,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    before { login(user) }
+
     context 'with valid attributes' do
       it 'save a new answer in the database' do
         expect { post :create, params: { answer: attributes_for(:answer), question_id: question.id } }.to change(Answer, :count).by(1)
@@ -41,6 +46,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    before { login(user) }
+
     context 'with valid attributes' do
       it 'assigns requested answer to @answer' do
         patch :update, params: { id: answer, answer: attributes_for(:answer), question_id: question.id }
@@ -75,6 +82,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    before { login(user) }
+
     let!(:question) { create(:question) }
     let!(:answer) { create(:answer, question: question) }
 
