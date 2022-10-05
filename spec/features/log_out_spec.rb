@@ -13,9 +13,6 @@ feature 'User can log out', %q{
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
     click_on 'Log in'
-
-    expect(page).to have_content 'Signed in successfully.'
-
     click_on 'Log Out'
 
     expect(page).to have_content 'Signed out successfully'
