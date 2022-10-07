@@ -17,6 +17,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'decent_exposure', '~> 3.0'
 gem 'slim-rails'
 gem 'devise'
+gem 'jquery-rails'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

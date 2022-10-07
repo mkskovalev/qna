@@ -10,11 +10,7 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
     @answer.user_id = current_user.id
 
-    if @answer.save
-      redirect_to question_path(@question), notice: 'Your answer successfully added.'
-    else
-      redirect_to question_path(@question), notice: "Answer body can't be blank"
-    end
+    @answer.save
   end
 
   def update
