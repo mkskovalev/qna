@@ -1,5 +1,11 @@
 li
   = answer.body
-  / = link_to 'Edit Answer', edit_question_answer_path(answer.question, answer)
+  - if user_signed_in?
+    = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+
+  = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
+    = f.label :body
+    = f.text_area :body, name: 'answer[body]', rows: 7, cols: 60
+    = f.submit 'Save'
 
   / = link_to 'Delete Answer', question_answer_path(answer.question, answer), method: :delete, data: { confirm: 'Are you sure?' }
