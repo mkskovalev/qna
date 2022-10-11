@@ -6,37 +6,39 @@ feature 'User can delete answer', %q{
   I'd like to be able to delete answer
 } do
 
-  # given!(:user) { create(:user) }
-  # given!(:question) { create(:question, author: user) }
-  # given!(:answer) { create(:answer, question_id: question.id, author: user) }
+  given!(:user) { create(:user) }
+  given!(:question) { create(:question, author: user) }
+  given!(:answer) { create(:answer, question_id: question.id, author: user) }
 
   describe 'Authinticated user' do
 
-  scenario 'can delete his own answer' # do
-  #     sign_in(user)
-  #     visit question_path(question)
-  #     click_on 'Delete Answer'
+    scenario 'can delete his own answer', js: true do
+      sign_in(user)
+      visit question_path(question)
 
-  #     expect(page).to have_content 'Answer successfully deleted.'
-  #     expect(page).not_to have_content answer.body
-  #   end
+      within '.answers' do
+        click_on 'Delete'
+        expect(page).not_to have_content answer.body
+      end
+    end
 
-  scenario "can't delete another user's answer" # do
-  #     user = create(:user)
-  #     sign_in(user)
-  #     visit question_path(question)
-  #     click_on 'Delete Answer'
+    scenario "can't delete another user's answer" do
+      user = create(:user)
+      sign_in(user)
+      visit question_path(question)
 
-  #     expect(page).to have_content "You can't delete someone else's answer."
-  #     expect(page).to have_content answer.body
-  #   end
+      within '.answers' do
+      expect(page).not_to have_content 'Delete'
+      end
+    end
   end
 
-  scenario "Unauthinticated user can't delete answers" # do
-  #   visit question_path(question)
-  #   click_on 'Delete Answer'
+  scenario "Unauthinticated user can't delete answers" do
+    visit question_path(question)
 
-  #   expect(page).to have_content 'You need to sign in or sign up before continuing.'
-  # end
+    within '.answers' do
+      expect(page).not_to have_content 'Delete'
+    end
+  end
 
 end
