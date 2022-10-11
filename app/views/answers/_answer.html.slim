@@ -1,11 +1,14 @@
 li
   = answer.body
-  - if user_signed_in?
+  - if user_signed_in? && answer.author == current_user
     = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 
-  = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
-    = f.label :body
-    = f.text_area :body, name: 'answer[body]', rows: 7, cols: 60
-    = f.submit 'Save'
+    =content_tag :div, class: "answer-edit-errors-#{answer.id}"
+      = render 'shared/errors', resource: answer
 
-  / = link_to 'Delete Answer', question_answer_path(answer.question, answer), method: :delete, data: { confirm: 'Are you sure?' }
+    = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
+      = f.label :body
+      = f.text_area :body, name: 'answer[body]', rows: 7, cols: 60
+      = f.submit 'Save'
+
+    / = link_to 'Delete Answer', question_answer_path(answer.question, answer), method: :delete, data: { confirm: 'Are you sure?' }

@@ -11,15 +11,15 @@ feature 'User can delete question', %q{
 
   describe 'Authinticated user' do
 
-    scenario 'can delete his own question' do
-      sign_in(user)
-      visit question_path(question)
-      click_on 'Delete'
+    scenario 'can delete his own question' # do
+    #   sign_in(user)
+    #   visit question_path(question)
+    #   click_on 'Delete'
 
-      expect(page).to have_content 'Question successfully deleted.'
-      expect(page).not_to have_content question.title
-      expect(page).not_to have_content question.body
-    end
+    #   expect(page).to have_content 'Question successfully deleted.'
+    #   expect(page).not_to have_content question.title
+    #   expect(page).not_to have_content question.body
+    # end
 
     scenario "can't delete another user's question" # do
     #   user = create(:user)
@@ -34,11 +34,11 @@ feature 'User can delete question', %q{
     # end
   end
 
-  scenario "Unauthinticated user can't delete question" do
-    visit question_path(question)
-    click_on 'Delete'
+  scenario "Unauthinticated user can't delete question" # do
+  #   visit question_path(question)
+  #   click_on 'Delete'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
-  end
+  #   expect(page).to have_content 'You need to sign in or sign up before continuing.'
+  # end
 
 end
