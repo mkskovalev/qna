@@ -3,7 +3,9 @@
 h2 Answers
 
 ol.answers
-  = render @question.answers
+  - if @question.best_answer != nil
+    = render 'answers/best_answer', resource: @best_answer
+  = render @answers
 
 .answer-errors
   = render 'shared/errors', resource: @answer

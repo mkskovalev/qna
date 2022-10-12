@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   root 'questions#index'
 
   resources :questions, except: [:edit] do
-    resources :answers, shallow: true, except: [:index, :show, :new]
+    resources :answers, shallow: true, except: [:index, :show, :new] do
+      post :mark_as_best, on: :member
+    end
   end
 end

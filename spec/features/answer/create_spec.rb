@@ -14,8 +14,10 @@ feature 'User can create answer on question page', %q{
     background { visit question_path(question) }
 
     scenario 'add answer', js:true do
-      fill_in 'answer[body]', with: 'Some Body'
-      click_on 'Add Answer'
+      within '.new-answer' do
+        fill_in 'answer[body]', with: 'Some Body'
+        click_on 'Add Answer'
+      end
 
       expect(current_path).to eq question_path(question)
       within '.answers' do

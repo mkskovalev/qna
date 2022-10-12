@@ -1,7 +1,9 @@
 = content_tag :li, id: "answer-#{answer.id}"
-  = answer.body
+  => answer.body
   - if user_signed_in? && answer.author == current_user
-    = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    => link_to 'Mark as Best', mark_as_best_answer_path(answer), method: :post, local: false
+    => link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    = link_to 'Delete', answer, method: :delete, remote: true
 
     =content_tag :div, class: "answer-edit-errors-#{answer.id}"
       = render 'shared/errors', resource: answer
@@ -10,5 +12,3 @@
       = f.label :body
       = f.text_area :body, name: 'answer[body]', rows: 7, cols: 60
       = f.submit 'Save'
-
-    = link_to 'Delete', answer, method: :delete, remote: true

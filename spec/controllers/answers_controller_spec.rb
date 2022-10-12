@@ -77,4 +77,22 @@ RSpec.describe AnswersController, type: :controller do
       expect(response).to render_template :destroy
     end
   end
+
+  describe 'POST #mark_as_best' do
+    before { login(user) }
+
+    let!(:question) { create(:question) }
+    let!(:answer) { create(:answer, question: question, author: user) }
+
+    it 'changes question attribute best_answer_id' do
+      post :mark_as_best, params: { id: answer, answer: attributes_for(:answer) }, format: :js
+      question.reload
+      expect(question.best_answer).to eq answer
+    end
+
+    it 'redirect to question page' do
+      post :mark_as_best, params: { id: answer, answer: attributes_for(:answer) }, format: :js
+      expect(response).to redirect_to question_path(question)
+    end
+  end
 end

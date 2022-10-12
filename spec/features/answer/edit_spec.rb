@@ -6,8 +6,6 @@ feature 'User can edit his answer', %q{
   I'd like to be able to edit my answer
 } do
 
-
-
   scenario "Unauthinticated user can't edit answer" do
     question = create(:question)
     visit question_path(question)

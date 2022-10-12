@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :find_question, only: [:create, :edit]
-  before_action :load_answer, only: [:edit, :update, :destroy]
+  before_action :load_answer, only: [:edit, :update, :destroy, :mark_as_best]
 
   def edit
   end
@@ -20,6 +20,12 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
+  end
+
+  def mark_as_best
+    question = @answer.question
+    question.update(best_answer_id: @answer.id)
+    redirect_to question
   end
 
   private
