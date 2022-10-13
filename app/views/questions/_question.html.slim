@@ -22,7 +22,7 @@
       = form.label :body
       = form.text_area :body, id: :question_body, rows: 7, cols: 60
       = form.label :files
-      = form.file_field :files, multiple: true
+      = form.file_field :files, multiple: true, direct_upload: true
       = form.submit 'Update'
 
     = link_to 'Delete', question, local: true, method: :delete, data: { confirm: 'Are you sure?' }
