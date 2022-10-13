@@ -1,5 +1,11 @@
 = content_tag :li, id: "answer-#{answer.id}"
+
   => answer.body
+
+  - if answer.files.attached?
+    - answer.files.each do |file|
+      p = link_to file.filename.to_s, url_for(file)
+
   - if user_signed_in? && answer.author == current_user
     => link_to 'Mark as Best', mark_as_best_answer_path(answer), method: :post, local: false
     => link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }

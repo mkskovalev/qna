@@ -1,6 +1,12 @@
 = content_tag :li, id: "answer-#{@best_answer.id}"
   b => "[Best]"
+
   => @best_answer.body
+
+  - if @best_answer.files.attached?
+    - @best_answer.files.each do |file|
+      p = link_to file.filename.to_s, url_for(file)
+
   - if user_signed_in? && @best_answer.author == current_user
     => link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: @best_answer.id }
     = link_to 'Delete', @best_answer, method: :delete, remote: true

@@ -9,11 +9,11 @@ feature 'User can create answer on question page', %q{
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
 
-  describe 'Authinticated user' do
+  describe 'Authinticated user', js:true do
     background { sign_in(user) }
     background { visit question_path(question) }
 
-    scenario 'add answer', js:true do
+    scenario 'add answer' do
       within '.new-answer' do
         fill_in 'answer[body]', with: 'Some Body'
         click_on 'Add Answer'
@@ -25,11 +25,24 @@ feature 'User can create answer on question page', %q{
       end
     end
 
-    scenario 'add answer with errors', js:true do
+    scenario 'add answer with errors' do
       click_on 'Add Answer'
 
       within '.answer-errors' do
         expect(page).to have_content "Body can't be blank"
+      end
+    end
+
+    scenario 'add answer with attached files' do
+      within '.new-answer' do
+        fill_in 'answer[body]', with: 'Some Body'
+        attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
+
+        click_on 'Add Answer'
+      end
+
+      within '.answers' do
+        expect(page).to have_link 'rails_helper.rb'
       end
     end
   end

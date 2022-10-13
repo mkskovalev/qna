@@ -13,6 +13,8 @@ ol.answers
 = form_with model: [@question, @answer], class: 'new-answer', local: false do |form|
   = form.label :body
   = form.text_area :body, id: :answer_body, name: 'answer[body]', rows: 7, cols: 60
+  = form.label :files
+  = form.file_field :files, multiple: true
   = form.submit 'Add Answer'
 
 

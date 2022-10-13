@@ -14,5 +14,9 @@ RSpec.describe Answer, type: :model do
 
     it { should belong_to(:author).class_name('User') }
     it { expect(answer.user_id).to_not be(nil) }
+
+    it 'have many attached files' do
+      expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+    end
   end
 end
