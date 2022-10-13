@@ -17,4 +17,6 @@
     = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
       = f.label :body
       = f.text_area :body, name: 'answer[body]', rows: 7, cols: 60
+      = f.label :files
+      = f.file_field :files, multiple: true
       = f.submit 'Save'
