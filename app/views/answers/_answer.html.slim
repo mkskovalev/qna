@@ -7,6 +7,11 @@
     => link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
     = link_to 'Delete', answer, method: :delete, remote: true
 
+  .links
+    p Links:
+    - answer.links.each do |link|
+      p = link_to link.name, link.url
+
   .answer-files
     - if answer.files.attached?
       - answer.files.each do |file|

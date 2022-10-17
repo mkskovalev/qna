@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = Answer.new
+    @answer.links.build
     @best_answer = @question.best_answer
     @answers = @question.answers.where.not(id: @question.best_answer_id)
   end
