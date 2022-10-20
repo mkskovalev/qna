@@ -9,7 +9,7 @@
 
   .links
     p Links:
-    = render 'shared/links', resource: answer
+    = render 'shared/links', resource: answer, question_id: answer.question.id
 
   .answer-files
     - if answer.files.attached?

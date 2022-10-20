@@ -7,6 +7,10 @@
     => link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: @best_answer.id }
     = link_to 'Delete', @best_answer, method: :delete, remote: true
 
+  .links
+    p Links:
+    = render 'shared/links', resource: @best_answer, question_id: @best_answer.question.id
+
   .answer-files
     - if @best_answer.files.attached?
       - @best_answer.files.each do |file|

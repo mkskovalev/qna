@@ -12,7 +12,7 @@
 
   .links
     p Links:
-    = render 'shared/links', resource: question
+    = render 'shared/links', resource: question, question_id: question.id
 
   - if user_signed_in? && question.author == current_user
     p = link_to 'Edit', '#', class: 'edit-question-link'
