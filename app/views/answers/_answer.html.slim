@@ -1,4 +1,4 @@
-= content_tag :li, id: "answer-#{answer.id}"
+= content_tag :li, id: "answer-#{answer.id}", class: "card"
 
   => answer.body
 
@@ -9,8 +9,7 @@
 
   .links
     p Links:
-    - answer.links.each do |link|
-      p = link_to link.name, link.url
+    = render 'shared/links', resource: answer
 
   .answer-files
     - if answer.files.attached?

@@ -1,0 +1,8 @@
+- resource.links.each do |link|
+  = link_to link.name,
+            link.url,
+            class: "#{'gist-link' if link.gist?}",
+            data: { link_id: link.id }
+
+  - if link.gist?
+    div class="gist-content hidden" data-link-id="#{link.id}"

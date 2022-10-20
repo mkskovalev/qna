@@ -12,8 +12,7 @@
 
   .links
     p Links:
-    - question.links.each do |link|
-      p = link_to link.name, link.url
+    = render 'shared/links', resource: question
 
   - if user_signed_in? && question.author == current_user
     p = link_to 'Edit', '#', class: 'edit-question-link'
