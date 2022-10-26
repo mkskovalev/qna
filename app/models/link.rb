@@ -20,8 +20,4 @@ class Link < ApplicationRecord
   def gist?
     GIST_REGEXP.match?(self.url)
   end
-
-  def gist_id
-    self.url.split('/').last
-  end
 end

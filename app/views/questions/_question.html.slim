@@ -27,6 +27,13 @@
       = form.text_area :body, id: :question_body, rows: 7, cols: 60
       = form.label :files
       = form.file_field :files, multiple: true, direct_upload: true
+
+      p#links Links:
+      = form.fields_for :links do |l|
+        = render 'link_fields', f: l
+      = link_to_add_association 'add link', form, :links, \
+                                            'data-association-insertion-node' => '.nested-fields', \
+                                            'data-association-insertion-method' => 'after'
       = form.submit 'Update'
 
     = link_to 'Delete', question, local: true, method: :delete, data: { confirm: 'Are you sure?' }
