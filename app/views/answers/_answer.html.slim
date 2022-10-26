@@ -26,4 +26,10 @@
       = f.text_area :body, name: 'answer[body]', rows: 7, cols: 60
       = f.label :files
       = f.file_field :files, multiple: true, direct_upload: true
+      p#links Links:
+      = f.fields_for :links do |l|
+        = render 'link_fields', f: l
+      = link_to_add_association 'add link', f, :links, \
+                                            'data-association-insertion-node' => '.nested-fields', \
+                                            'data-association-insertion-method' => 'after'
       = f.submit 'Save'
