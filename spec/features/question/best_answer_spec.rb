@@ -9,6 +9,7 @@ feature 'User can choose the best answer to the question', %q{
   describe 'Authinticated user', js: true do
     given!(:user) { create(:user) }
     given!(:question) { create(:question, author: user) }
+    given!(:reward) { create(:reward, question_id: question.id) }
     given!(:answers) { create_list(:answer, 3, question: question, author: user) }
 
     scenario 'can choose best answer for his question' do

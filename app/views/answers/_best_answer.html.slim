@@ -1,7 +1,13 @@
-= content_tag :li, id: "answer-#{@best_answer.id}"
+= content_tag :li, id: "answer-#{@best_answer.id}", style: 'border: 1px solid #000; padding: 10px;'
   b => "[Best]"
 
   => @best_answer.body
+
+  - if @best_answer.question.reward.present?
+    .reward
+      = image_tag url_for(@best_answer.question.reward.image)
+      = @best_answer.question.reward.title
+
 
   - if user_signed_in? && @best_answer.author == current_user
     => link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: @best_answer.id }

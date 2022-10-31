@@ -25,6 +25,8 @@ class AnswersController < ApplicationController
   def mark_as_best
     question = @answer.question
     question.update(best_answer_id: @answer.id)
+    question.reward.update(user_id: @answer.user_id) if question.reward.present?
+
     redirect_to question
   end
 
