@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     resources :answers, shallow: true, except: [:index, :show, :new] do
       post :mark_as_best, on: :member
     end
+
+    post :like, on: :member
+    post :unlike, on: :member
   end
 
   resources :rewards, only: [:index]

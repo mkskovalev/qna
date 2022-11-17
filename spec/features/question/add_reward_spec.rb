@@ -8,7 +8,7 @@ feature 'User can add reward to question', %q{
 
   given(:user) { create(:user) }
 
-  scenario 'User adds reward when ask question', js:true do
+  scenario 'User adds reward when ask question', js: true do
     sign_in(user)
     visit new_question_path
 

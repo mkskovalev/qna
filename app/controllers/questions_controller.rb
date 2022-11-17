@@ -1,6 +1,9 @@
 class QuestionsController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:show, :update, :destroy]
+  before_action :load_question, only: [:show, :update, :destroy, :like, :unlike]
+  before_action :find_vote, only: [:like, :unlike]
 
   def index
     @questions = Question.all
@@ -44,6 +47,12 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def find_vote
+    @vote = Vote.find_by(votable_type: "#{@question.class}",
+                         votable_id: @question.id,
+                         user_id: current_user.id)
+  end
 
   def load_question
     @question = Question.with_attached_files.find(params[:id])
