@@ -6,16 +6,16 @@ $(document).on('turbolinks:load', function() {
     $('form#edit-answer-' + answerId).removeClass('hidden')
   })
 
-  $('.answers').on('click', '.answer-like', function(e) {
-    var answerId = $(this).data('answerId')
+  $('.answer-votes').on('click', '.answer-like', function(e) {
     $('.answer-like').on('ajax:success', function(e) {
+      var answerId = $(this).data('answerId')
       $('.answer-' + answerId + '-rating').html(e.detail[0])
     })
   })
 
-  $('.answers').on('click', '.answer-unlike', function(e) {
-    var answerId = $(this).data('answerId')
+  $('.answer-votes').on('click', '.answer-unlike', function(e) {
     $('.answer-unlike').on('ajax:success', function(e) {
+      var answerId = $(this).data('answerId')
       $('.answer-' + answerId + '-rating').html(e.detail[0])
     })
   })

@@ -35,12 +35,6 @@ class AnswersController < ApplicationController
 
   private
 
-  def find_vote
-    @vote = Vote.find_by(votable_type: "#{@answer.class}",
-                         votable_id: @answer.id,
-                         user_id: current_user.id)
-  end
-
   def load_answer
     @answer = Answer.with_attached_files.find(params[:id])
   end
