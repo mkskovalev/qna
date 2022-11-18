@@ -3,8 +3,7 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!
   before_action :find_question, only: [:create, :edit]
-  before_action :load_answer, only: [:edit, :update, :destroy, :mark_as_best, :like, :unlike]
-  before_action :find_vote, only: [:like, :unlike]
+  before_action :load_answer, only: [:edit, :update, :destroy, :mark_as_best]
 
   def edit
   end
