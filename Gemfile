@@ -28,6 +28,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem 'rails-controller-testing'
   gem 'dotenv-rails'
+  gem 'action-cable-testing'
 end
 
 group :development do

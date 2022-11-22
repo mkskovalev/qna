@@ -4,8 +4,6 @@ h1 Все вопросы
 
 br
 br
-
-- @questions.each do |question|
-  = link_to question.title, question_path(question)
-  br
+.questions
+  = render @questions
 

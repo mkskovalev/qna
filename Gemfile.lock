@@ -1,6 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    action-cable-testing (0.6.1)
+      actioncable (>= 5.0)
     actioncable (6.0.6)
       actionpack (= 6.0.6)
       nio4r (~> 2.0)
@@ -320,6 +322,7 @@ PLATFORMS
   x86-mswin32
 
 DEPENDENCIES
+  action-cable-testing
   aws-sdk-s3 (~> 1)
   bootsnap (>= 1.4.2)
   byebug
