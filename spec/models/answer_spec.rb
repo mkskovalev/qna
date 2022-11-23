@@ -22,4 +22,24 @@ RSpec.describe Answer, type: :model do
       expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
     end
   end
+
+  describe 'broadcasting' do
+    let!(:question) { create(:question) }
+
+    it "matches with stream name" do
+      expect {
+        ActionCable.server.broadcast(
+          "question_#{question.id}", text: 'Hello!'
+        )
+      }.to have_broadcasted_to("question_#{question.id}")
+    end
+
+    it "matches with message" do
+      expect {
+        ActionCable.server.broadcast(
+          "question_#{question.id}", text: 'Hello!'
+        )
+      }.to have_broadcasted_to("question_#{question.id}").with(text: 'Hello!')
+    end
+  end
 end

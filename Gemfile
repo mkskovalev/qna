@@ -21,6 +21,7 @@ gem 'jquery-rails'
 gem 'aws-sdk-s3', '~> 1'
 gem "mini_magick"
 gem "cocoon"
+gem 'gon'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

@@ -16,6 +16,8 @@ class QuestionsController < ApplicationController
     @best_answer = @question.best_answer
     @answers = @question.answers.where.not(id: @question.best_answer_id)
     @question.links.build
+
+    gon.question_id = @question.id
   end
 
   def new

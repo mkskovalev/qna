@@ -5,6 +5,8 @@ class AnswersController < ApplicationController
   before_action :find_question, only: [:create, :edit]
   before_action :load_answer, only: [:edit, :update, :destroy, :mark_as_best]
 
+  after_action :publish_answer, only: [:create]
+
   def edit
   end
 
@@ -33,6 +35,17 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    html = ApplicationController.render(
+      partial: 'answers/answer_simple',
+      locals: { answer: @answer }
+    )
+
+    ActionCable.server.broadcast("question_#{@answer.question.id}", { html: html, author_id: @answer.user_id })
+  end
 
   def load_answer
     @answer = Answer.with_attached_files.find(params[:id])

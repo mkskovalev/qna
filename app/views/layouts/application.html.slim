@@ -4,11 +4,14 @@ html
     title QnA Project
     = csrf_meta_tags
     = csp_meta_tag
+    = include_gon(:init => true)
+    = Gon::Base.render_data({})
     = action_cable_meta_tag
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
 
   body
+    div class="hidden" id="user-id" data-user-id="#{current_user&.id}"
     = render 'shared/nav'
     = render 'shared/flash'
     = yield

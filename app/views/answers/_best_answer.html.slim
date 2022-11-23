@@ -3,7 +3,7 @@
 
   => @best_answer.body
 
-  div class="answer-votes"
+  .answer-votes
     b Rating:
     - if user_signed_in?
       => link_to 'like', like_answer_path(@best_answer), \
