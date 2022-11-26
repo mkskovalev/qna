@@ -8,10 +8,14 @@ Rails.application.routes.draw do
       post :mark_as_best, on: :member
       post :like, on: :member
       post :unlike, on: :member
+
+      post :comment, on: :member
     end
 
     post :like, on: :member
     post :unlike, on: :member
+
+    post :comment, on: :member
   end
 
   resources :rewards, only: [:index]

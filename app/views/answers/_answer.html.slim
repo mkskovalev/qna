@@ -27,6 +27,19 @@
     => link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
     = link_to 'Delete', answer, method: :delete, remote: true
 
+  .answer-comments
+    .answer-comments-list
+      - answer.comments.each do |comment|
+        = render 'shared/comment', comment: comment
+
+    .answer-comments-errors
+      = render 'shared/errors', resource: @comment
+
+    = form_with url: comment_answer_path(answer), class: 'new-answer-comment', data: { answer_id: answer.id }, local: false do |form|
+      = form.label :body
+      = form.text_area :body, id: :comment_body, name: 'comment[body]', rows: 7, cols: 60
+      = form.submit 'Add Comment'
+
   .links
     p Links:
     = render 'shared/links', resource: answer, question_id: answer.question.id

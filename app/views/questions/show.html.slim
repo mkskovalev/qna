@@ -1,7 +1,19 @@
 = render partial: "question_show", object: @question
 
-h2 Answers
+h2 Question Comments
+.question-comments
+  .question-comments-list
+    - @question.comments.each do |comment|
+      = render 'shared/comment', comment: comment
 
+  .question-comments-errors
+
+  = form_with url: comment_question_path(@question), class: 'new-question-comment', local: false do |form|
+    = form.label :body
+    = form.text_area :body, id: :comment_body, name: 'comment[body]', rows: 7, cols: 60
+    = form.submit 'Add Comment'
+
+h2 Answers
 ol.answers
   - if @question.best_answer != nil
     = render 'answers/best_answer', resource: @best_answer
