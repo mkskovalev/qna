@@ -19,10 +19,4 @@ $(document).on('turbolinks:load', function() {
       $('.answer-' + answerId + '-rating').html(e.detail[0])
     })
   })
-
-  $('.new-answer-comment').on('ajax:success', function(e) {
-    var answerId = $(this).data('answerId')
-    $('#answer-' + answerId + ' .answer-comments').append(e.detail[2].response)
-    $('.new-answer-comment #comment_body').val('')
-  })
 })

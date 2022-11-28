@@ -29,6 +29,8 @@ feature 'User can add reward to question', %q{
       click_on 'Add Answer'
     end
 
+    visit current_path
+
     click_on 'Mark as Best'
 
     within '.reward' do

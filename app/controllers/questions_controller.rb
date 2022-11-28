@@ -1,6 +1,5 @@
 class QuestionsController < ApplicationController
   include Voted
-  include Commented
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :update, :destroy]
@@ -12,13 +11,16 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answer = Answer.new
+    @answer = @question.answers.build
     @answer.links.build
     @best_answer = @question.best_answer
     @answers = @question.answers.where.not(id: @question.best_answer_id)
     @question.links.build
+    @question_comment = @question.comments.build
+    @answer_comment = @answer.comments.build
 
     gon.question_id = @question.id
+    gon.answer_comment = @answer_comment
   end
 
   def new

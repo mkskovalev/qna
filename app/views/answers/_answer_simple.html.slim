@@ -8,11 +8,11 @@
 
   .links
     p Links:
-      - answer.links.each do |link|
-        - if link.persisted?
-          = link_to link.name,
-                    link.url,
-                    data: { link_id: link.id }
+    - answer.links.each do |link|
+      - if link.persisted?
+        = link_to link.name,
+                  link.url,
+                  data: { link_id: link.id }
 
   .answer-files
     - if answer.files.attached?

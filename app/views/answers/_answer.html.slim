@@ -20,36 +20,13 @@
                           remote: true \
                           if answer.author != current_user
 
-  - if answer.question.author == current_user
-    => link_to 'Mark as Best', mark_as_best_answer_path(answer), method: :post, local: false
+  .actions
+    - if answer.question.author == current_user
+      => link_to 'Mark as Best', mark_as_best_answer_path(answer), method: :post, local: false
 
-  - if answer.author == current_user
-    => link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-    = link_to 'Delete', answer, method: :delete, remote: true
-
-  .answer-comments
-    .answer-comments-list
-      - answer.comments.each do |comment|
-        = render 'shared/comment', comment: comment
-
-    .answer-comments-errors
-      = render 'shared/errors', resource: @comment
-
-    = form_with url: comment_answer_path(answer), class: 'new-answer-comment', data: { answer_id: answer.id }, local: false do |form|
-      = form.label :body
-      = form.text_area :body, id: :comment_body, name: 'comment[body]', rows: 7, cols: 60
-      = form.submit 'Add Comment'
-
-  .links
-    p Links:
-    = render 'shared/links', resource: answer, question_id: answer.question.id
-
-  .answer-files
-    - if answer.files.attached?
-      - answer.files.each do |file|
-        p = link_to file.filename.to_s, url_for(file)
-        - if user_signed_in? && answer.author == current_user
-          = link_to 'Delete', attachment_path(file, question_id: answer.question.id), method: :delete, local: false
+    - if answer.author == current_user
+      => link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+      = link_to 'Delete', answer, method: :delete, remote: true
 
     =content_tag :div, class: "answer-edit-errors-#{answer.id}"
       = render 'shared/errors', resource: answer
@@ -66,3 +43,23 @@
                                             'data-association-insertion-node' => '.nested-fields', \
                                             'data-association-insertion-method' => 'after'
       = f.submit 'Save'
+
+  br
+  b Answer Comments
+  .comments
+    = render answer.comments
+
+  div class="new-answer-#{answer.id}-comment"
+    - if current_user
+      = render 'comments/form', commentable: answer, comment: @answer_comment
+
+  .links
+    p Links:
+    = render 'shared/links', resource: answer, question_id: answer.question.id
+
+  .answer-files
+    - if answer.files.attached?
+      - answer.files.each do |file|
+        p = link_to file.filename.to_s, url_for(file)
+        - if user_signed_in? && answer.author == current_user
+          = link_to 'Delete', attachment_path(file, question_id: answer.question.id), method: :delete, local: false

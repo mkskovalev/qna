@@ -24,19 +24,20 @@ feature 'User can edit his answer', %q{
     background { visit question_path(question) }
 
     scenario 'edit his answer', js: true do
-      within '.answers' do
+      within "#answer-#{answer.id} .actions" do
         click_on('Edit')
         fill_in 'Body', with: 'edited answer'
         click_on('Save')
+      end
 
+      within "#answer-#{answer.id}" do
         expect(page).not_to have_content answer.body
         expect(page).to have_content 'edited answer'
-        # expect(page).not_to have_selector 'textarea'
       end
     end
 
     scenario 'edit his answer with errors', js:true do
-      within '.answers' do
+      within "#answer-#{answer.id} .actions" do
         click_on 'Edit'
         fill_in 'Body', with: ''
         click_on 'Save'
@@ -46,14 +47,16 @@ feature 'User can edit his answer', %q{
     end
 
     scenario 'edit his answer with attached files', js: true do
-      within '.answers' do
+      within "#answer-#{answer.id} .actions" do
         click_on('Edit')
         fill_in 'Body', with: 'edited answer'
 
         attach_file 'Files', ["#{Rails.root}/spec/models/answer_spec.rb", "#{Rails.root}/spec/models/question_spec.rb"]
 
         click_on('Save')
+      end
 
+      within "#answer-#{answer.id}" do
         expect(page).not_to have_content answer.body
         expect(page).to have_content 'edited answer'
         expect(page).to have_link 'answer_spec.rb'
@@ -67,7 +70,7 @@ feature 'User can edit his answer', %q{
       sign_in(user)
       visit question_path(question)
 
-      within '.answers' do
+      within "#answer-#{answer.id} .actions" do
         expect(page).not_to have_content 'Edit'
       end
     end
