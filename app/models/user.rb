@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [:github, :facebook]
+         :confirmable, :omniauthable, omniauth_providers: [:github, :facebook]
 
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
@@ -17,6 +17,10 @@ class User < ApplicationRecord
   end
 
   def create_authorization(auth)
-    self.authorizations.create(provider: auth.provider, uid: auth.uid)
+    if self.persisted?
+      self.authorizations.create(provider: auth.provider, uid: auth.uid)
+    else
+      self.authorizations.build(provider: auth['provider'], uid: auth['uid'])
+    end
   end
 end

@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe OauthCallbacksController, type: :controller do
   before do
     @request.env["devise.mapping"] = Devise.mappings[:user]
+    @request.env["omniauth.auth"] = mock_auth_hash_github
   end
 
   describe 'Github' do
@@ -16,7 +17,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
     end
 
     context 'user exists' do
-      let!(:user) { create(:user) }
+      let!(:user) { create(:user, :confirmed) }
 
       before do
         allow(User).to receive(:find_for_oauth).and_return(user)
@@ -42,8 +43,8 @@ RSpec.describe OauthCallbacksController, type: :controller do
         expect(subject.current_user).to_not be
       end
 
-      it 'redirects to root path' do
-        expect(response).to redirect_to root_path
+      it 'redirects to registration path' do
+        expect(response).to redirect_to new_user_registration_url
       end
     end
   end
@@ -59,7 +60,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
     end
 
     context 'user exists' do
-      let!(:user) { create(:user) }
+      let!(:user) { create(:user, :confirmed) }
 
       before do
         allow(User).to receive(:find_for_oauth).and_return(user)
@@ -85,8 +86,8 @@ RSpec.describe OauthCallbacksController, type: :controller do
         expect(subject.current_user).to_not be
       end
 
-      it 'redirects to root path' do
-        expect(response).to redirect_to root_path
+      it 'redirects to registration path' do
+        expect(response).to redirect_to new_user_registration_url
       end
     end
   end
