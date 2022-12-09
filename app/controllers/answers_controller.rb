@@ -4,8 +4,9 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :find_question, only: [:create, :edit]
   before_action :load_answer, only: [:edit, :update, :destroy, :mark_as_best]
-
   after_action :publish_answer, only: [:create]
+
+  authorize_resource
 
   def edit
   end

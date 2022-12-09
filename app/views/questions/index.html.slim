@@ -1,6 +1,7 @@
 h1 Все вопросы
 
-= link_to 'Ask Question', new_question_path
+- if can?(:create, Question)
+  = link_to 'Ask Question', new_question_path
 
 br
 br
