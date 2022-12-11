@@ -42,5 +42,8 @@ class Ability
     cannot :unlike, Answer, user_id: user.id
 
     can :read, Reward, user_id: user.id
+
+    can :me, :profiles
+    can :index, :api_questions
   end
 end
