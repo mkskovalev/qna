@@ -19,5 +19,15 @@ FactoryBot.define do
     trait :invalid do
       title { nil }
     end
+
+    trait :with_comments do
+      after(:build) do |question|
+        question.comments = FactoryBot.build_list(:comment, 3, user_id: create(:user).id)
+      end
+
+      # body { 'some comment' }
+      # user
+      # association :commentable, factory: :comment
+    end
   end
 end
