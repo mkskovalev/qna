@@ -1,14 +1,13 @@
 class Api::V1::AnswersController < Api::V1::BaseController
   before_action -> { authorize! :read, Answer }
-  before_action :find_question, only: [:index]
 
   def index
+    @question = Question.find(params[:question_id])
     render json: @question.answers, each_serializer: AnswersSerializer
   end
 
-  private
-
-  def find_question
-    @question = Question.find(params[:question_id])
+  def show
+    @answer = Answer.find(params[:id])
+    render json: @answer, serializer: AnswerSerializer
   end
 end
