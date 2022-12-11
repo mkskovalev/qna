@@ -43,7 +43,7 @@ class Ability
 
     can :read, Reward, user_id: user.id
 
-    can :me, :profiles
-    can :index, :api_questions
+    can :read, :profile
+    can :read, :profiles
   end
 end
