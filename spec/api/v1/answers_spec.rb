@@ -223,4 +223,44 @@ describe 'Answers API', type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/answers/:id' do
+    let!(:answer) { create(:answer) }
+    let(:api_path) { "/api/v1/answers/#{answer.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :delete }
+    end
+
+    context 'authorized' do
+      describe 'when user is author' do
+        let(:access_token) { create(:access_token, resource_owner_id: answer.author.id) }
+
+        it 'returns status 200' do
+          delete api_path, params: { access_token: access_token.token, id: answer }, headers: headers
+          expect(response).to have_http_status(:ok)
+        end
+
+        it 'change answers count' do
+          expect { delete api_path,
+                        params: { access_token: access_token.token, id: answer },
+                        headers: headers }.to change(Answer, :count).by(-1)
+        end
+      end
+
+      describe 'when user is not author' do
+        let(:access_token) { create(:access_token) }
+
+        it 'returns status 403 ' do
+          patch api_path, params: { access_token: access_token.token, id: answer }, headers: headers
+          expect(response).to have_http_status(:forbidden)
+        end
+
+        it 'does delete question' do
+          patch api_path, params: { access_token: access_token.token, id: answer }, headers: headers
+          expect(answer).to be
+        end
+      end
+    end
+  end
 end

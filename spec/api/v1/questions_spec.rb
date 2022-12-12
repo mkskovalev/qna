@@ -273,11 +273,9 @@ describe 'Questions API', type: :request do
           expect(response).to have_http_status(:forbidden)
         end
 
-        it 'does not update question with new params' do
+        it 'does delete question' do
           patch api_path, params: { access_token: access_token.token, id: question }, headers: headers
-          question.reload
-          expect(question.title).to_not eq 'new title'
-          expect(question.body).to_not eq 'new body'
+          expect(question).to be
         end
       end
     end

@@ -33,6 +33,15 @@ class Api::V1::AnswersController < Api::V1::BaseController
     end
   end
 
+  def destroy
+    authorize! :destroy, @answer
+    if @answer.destroy
+      render json: @answer, status: :ok
+    else
+      render json: { errors: "Something went wrong. Answer did not delete." }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def find_answer
