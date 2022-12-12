@@ -215,7 +215,7 @@ describe 'Answers API', type: :request do
           expect(response).to have_http_status(:forbidden)
         end
 
-        it 'does not update question with new params' do
+        it 'does not update answer with new params' do
           patch api_path, params: { access_token: access_token.token, id: answer, answer: new_answer_params }, headers: headers
           answer.reload
           expect(answer.body).to_not eq 'new body'
@@ -256,7 +256,7 @@ describe 'Answers API', type: :request do
           expect(response).to have_http_status(:forbidden)
         end
 
-        it 'does delete question' do
+        it 'does not delete answer' do
           patch api_path, params: { access_token: access_token.token, id: answer }, headers: headers
           expect(answer).to be
         end
