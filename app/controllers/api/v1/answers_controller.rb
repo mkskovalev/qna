@@ -18,7 +18,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
     answer.author = current_resource_owner
 
     if answer.save
-      render json: answer, status: :created
+      render json: answer, status: :created, serializer: AnswerSerializer
     else
       render json: { errors: answer.errors }, status: :unprocessable_entity
     end
@@ -36,7 +36,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
   def destroy
     authorize! :destroy, @answer
     if @answer.destroy
-      render json: @answer, status: :ok
+      render json: { status: :ok }
     else
       render json: { errors: "Something went wrong. Answer did not delete." }, status: :unprocessable_entity
     end

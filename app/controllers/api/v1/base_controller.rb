@@ -1,5 +1,11 @@
-class Api::V1::BaseController < ApplicationController
+class Api::V1::BaseController < ActionController::Base
   before_action :doorkeeper_authorize!
+
+  rescue_from CanCan::AccessDenied do |exeption|
+    respond_to do |format|
+      format.json { head :forbidden, content_type: 'application/json' }
+    end
+  end
 
   private
 

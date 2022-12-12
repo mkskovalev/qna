@@ -16,7 +16,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     question = current_resource_owner.questions.new(question_params)
 
     if question.save
-      render json: question, status: :created
+      render json: question, serializer: QuestionSerializer, status: :created
     else
       render json: { errors: question.errors }, status: :unprocessable_entity
     end
@@ -25,7 +25,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   def update
     authorize! :update, @question
     if @question.update(question_params)
-      render json: @question, status: :created
+      render json: @question, serializer: QuestionSerializer, status: :created
     else
       render json: { errors: @question.errors }, status: :unprocessable_entity
     end
@@ -34,7 +34,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   def destroy
     authorize! :destroy, @question
     if @question.destroy
-      render json: @question, status: :ok
+      render json: { status: :ok }
     else
       render json: { errors: "Something went wrong. Question did not delete." }, status: :unprocessable_entity
     end
