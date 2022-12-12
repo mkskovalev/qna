@@ -6,6 +6,7 @@ Doorkeeper.configure do
   orm :active_record
 
   default_scopes :public
+  optional_scopes :manage
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do

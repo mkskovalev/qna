@@ -1,7 +1,7 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
   skip_before_action :verify_authenticity_token
-  before_action -> { authorize! :create, Question }
-  before_action :find_question, only: [:show, :update]
+  before_action -> { authorize! :create, Question }, only: [:index, :show, :create]
+  before_action :find_question, only: [:show, :update, :destroy]
 
   def index
     @questions = Question.all
@@ -23,10 +23,20 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def update
+    authorize! :update, @question
     if @question.update(question_params)
       render json: @question, status: :created
     else
       render json: { errors: @question.errors }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    authorize! :destroy, @question
+    if @question.destroy
+      render json: @question, status: :ok
+    else
+      render json: { errors: "Something went wrong. Question did not delete." }, status: :unprocessable_entity
     end
   end
 
