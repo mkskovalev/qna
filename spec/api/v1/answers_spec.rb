@@ -112,4 +112,44 @@ describe 'Answers API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/questions/:id/answers' do
+    let(:question) { create(:question) }
+    let(:api_path) { "/api/v1/questions/#{question.id}/answers" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :post }
+    end
+
+    context 'authorized' do
+      let(:access_token) { create(:access_token) }
+
+      describe 'with valid params' do
+        it 'returns status created' do
+          post api_path, params: { access_token: access_token.token, answer: attributes_for(:answer) }, headers: headers
+          expect(response).to have_http_status(:created)
+        end
+
+        it 'change answers count' do
+          expect { post api_path,
+                        params: { access_token: access_token.token, answer: attributes_for(:answer) },
+                        headers: headers }.to change(Answer, :count).by(1)
+        end
+      end
+
+      describe 'with invalid params' do
+        it 'returns status unprocessable_entity' do
+          post api_path, params: { access_token: access_token.token, answer: attributes_for(:answer, :invalid) }, headers: headers
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(json['errors']).to be
+        end
+
+        it 'does not create answer' do
+          expect { post api_path,
+                        params: { access_token: access_token.token, answer: attributes_for(:answer, :invalid) },
+                        headers: headers }.to_not change(Answer, :count)
+        end
+      end
+    end
+  end
 end
