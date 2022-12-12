@@ -128,7 +128,7 @@ describe 'Questions API', type: :request do
     end
   end
 
-  describe 'GET /api/v1/questions' do
+  describe 'POST /api/v1/questions' do
     let(:api_path) { "/api/v1/questions" }
 
     it_behaves_like 'API Authorizable' do
@@ -162,6 +162,61 @@ describe 'Questions API', type: :request do
           expect { post api_path,
                         params: { access_token: access_token.token, question: attributes_for(:question, :invalid) },
                         headers: headers }.to_not change(Question, :count)
+        end
+      end
+    end
+  end
+
+  describe 'PATCH /api/v1/questions/:id' do
+    let!(:question) { create(:question) }
+    let(:new_question_params) { { title: 'new title', body: 'new body' } }
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :patch }
+    end
+
+    context 'authorized' do
+      let(:access_token) { create(:access_token) }
+
+      describe 'with valid params' do
+        it 'returns status created ' do
+          patch api_path, params: { access_token: access_token.token, question: new_question_params }, headers: headers
+          expect(response).to have_http_status(:created)
+        end
+
+        it 'update question with new params' do
+          patch api_path, params: { access_token: access_token.token, question: new_question_params }, headers: headers
+          question.reload
+          expect(question.title).to eq 'new title'
+          expect(question.body).to eq 'new body'
+        end
+
+        it 'does not change questions count' do
+          expect { patch api_path,
+                        params: { access_token: access_token.token, question: new_question_params },
+                        headers: headers }.to_not change(Question, :count)
+        end
+      end
+
+      describe 'with invalid params' do
+        it 'returns status unprocessable_entity' do
+          patch api_path, params: { access_token: access_token.token, question: attributes_for(:question, :invalid) }, headers: headers
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(json['errors']).to be
+        end
+
+        it 'does not create question' do
+          expect { patch api_path,
+                        params: { access_token: access_token.token, question: attributes_for(:question, :invalid) },
+                        headers: headers }.to_not change(Question, :count)
+        end
+
+        it 'does not update question with new params' do
+          patch api_path, params: { access_token: access_token.token, question: attributes_for(:question, :invalid) }, headers: headers
+          question.reload
+          expect(question.title).to_not eq 'new title'
+          expect(question.body).to_not eq 'new body'
         end
       end
     end
