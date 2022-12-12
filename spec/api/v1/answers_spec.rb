@@ -152,4 +152,75 @@ describe 'Answers API', type: :request do
       end
     end
   end
+
+  describe 'PATCH /api/v1/answers/:id' do
+    let!(:answer) { create(:answer) }
+    let(:new_answer_params) { { body: 'new body' } }
+    let(:api_path) { "/api/v1/answers/#{answer.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :patch }
+    end
+
+    context 'authorized' do
+      describe 'when user is author' do
+        let(:access_token) { create(:access_token, resource_owner_id: answer.author.id) }
+
+        describe 'with valid params' do
+
+          it 'returns status created ' do
+            patch api_path, params: { access_token: access_token.token, id: answer, answer: new_answer_params }, headers: headers
+            expect(response).to have_http_status(:created)
+          end
+
+          it 'update question with new params' do
+            patch api_path, params: { access_token: access_token.token, id: answer, answer: new_answer_params }, headers: headers
+            answer.reload
+            expect(answer.body).to eq 'new body'
+          end
+
+          it 'does not change questions count' do
+            expect { patch api_path,
+                          params: { access_token: access_token.token, id: answer, answer: new_answer_params },
+                          headers: headers }.to_not change(Answer, :count)
+          end
+        end
+
+        describe 'with invalid params' do
+          it 'returns status unprocessable_entity' do
+            patch api_path, params: { access_token: access_token.token, id: answer, answer: attributes_for(:answer, :invalid) }, headers: headers
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(json['errors']).to be
+          end
+
+          it 'does not create question' do
+            expect { patch api_path,
+                          params: { access_token: access_token.token, id: answer, answer: attributes_for(:answer, :invalid) },
+                          headers: headers }.to_not change(Answer, :count)
+          end
+
+          it 'does not update question with new params' do
+            patch api_path, params: { access_token: access_token.token, id: answer, answer: attributes_for(:answer, :invalid) }, headers: headers
+            answer.reload
+            expect(answer.body).to_not eq 'new body'
+          end
+        end
+      end
+
+      describe 'when user is not author' do
+        let(:access_token) { create(:access_token) }
+
+        it 'returns status 403 ' do
+          patch api_path, params: { access_token: access_token.token, id: answer, answer: new_answer_params }, headers: headers
+          expect(response).to have_http_status(:forbidden)
+        end
+
+        it 'does not update question with new params' do
+          patch api_path, params: { access_token: access_token.token, id: answer, answer: new_answer_params }, headers: headers
+          answer.reload
+          expect(answer.body).to_not eq 'new body'
+        end
+      end
+    end
+  end
 end
