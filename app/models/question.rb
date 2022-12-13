@@ -21,4 +21,14 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :reward, reject_if: :all_blank, allow_destroy: true
 
   validates :title, :body, :author, presence: true
+
+  after_create :calculate_reputation
+
+  scope :daily, -> { where('created_at > ? ', Time.now - 1.day) }
+
+  private
+
+  def calculate_reputation
+    ReputationJob.perform_later(self)
+  end
 end
