@@ -25,6 +25,8 @@ Rails.application.routes.draw do
       concerns :commentable
     end
 
+    resources :subscriptions, only: [:create, :destroy]
+
     post :like, on: :member
     post :unlike, on: :member
   end

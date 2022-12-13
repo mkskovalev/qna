@@ -3,6 +3,7 @@ class Question < ApplicationRecord
   include Commentable
 
   has_many :answers, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
   has_one :reward, dependent: :destroy
 
@@ -22,13 +23,18 @@ class Question < ApplicationRecord
 
   validates :title, :body, :author, presence: true
 
-  after_create :calculate_reputation
-
   scope :daily, -> { where('created_at > ? ', Time.now - 1.day) }
+
+  after_create :calculate_reputation
+  after_create :subscribe_author
 
   private
 
   def calculate_reputation
     ReputationJob.perform_later(self)
+  end
+
+  def subscribe_author
+    Subscription.create(question_id: self.id, user_id: self.author.id)
   end
 end
