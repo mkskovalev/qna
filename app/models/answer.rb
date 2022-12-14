@@ -15,4 +15,12 @@ class Answer < ApplicationRecord
   validates :author, presence: true
   validates :body, presence: true,
                    uniqueness: { scope: :question_id, case_sensitive: false }
+
+  after_create :send_notification
+
+  private
+
+  def send_notification
+    NewAnswerNotificationJob.perform_later(self)
+  end
 end
