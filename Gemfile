@@ -34,6 +34,9 @@ gem 'sidekiq'
 gem 'activejob'
 gem 'sinatra', require: false
 gem 'whenever', require: false
+gem 'elasticsearch-rails'
+gem 'elasticsearch-model'
+gem 'searchkick', '4.6.3'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -60,6 +63,7 @@ group :test do
   gem 'database_cleaner-active_record'
   gem 'launchy'
   gem 'capybara-email'
+  gem 'elasticsearch-extensions'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

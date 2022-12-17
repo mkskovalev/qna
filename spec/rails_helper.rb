@@ -44,6 +44,23 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :selenium_chrome_headless
   Capybara.default_max_wait_time = 5
 
+  config.before(:suite) do
+    # reindex models
+    Question.reindex
+    Answer.reindex
+    User.reindex
+    Comment.reindex
+
+    # and disable callbacks
+    Searchkick.disable_callbacks
+  end
+
+  config.around(:each, search: true) do |example|
+    Searchkick.callbacks(nil) do
+      example.run
+    end
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 

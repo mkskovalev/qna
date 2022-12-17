@@ -2,6 +2,8 @@ class Answer < ApplicationRecord
   include Votable
   include Commentable
 
+  searchkick
+
   has_many :links, dependent: :destroy, as: :linkable
   belongs_to :question
   belongs_to :author,
@@ -17,6 +19,14 @@ class Answer < ApplicationRecord
                    uniqueness: { scope: :question_id, case_sensitive: false }
 
   after_create :send_notification
+
+  def search_data
+    attrs = attributes.dup
+    relational = {
+      author_email: author.email,
+    }
+    attrs.merge! relational
+  end
 
   private
 

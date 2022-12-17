@@ -2,6 +2,8 @@ class Question < ApplicationRecord
   include Votable
   include Commentable
 
+  searchkick
+
   has_many :answers, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
@@ -27,6 +29,14 @@ class Question < ApplicationRecord
 
   after_create :calculate_reputation
   after_create :subscribe_author
+
+  def search_data
+    attrs = attributes.dup
+    relational = {
+      author_email: author.email,
+    }
+    attrs.merge! relational
+  end
 
   private
 

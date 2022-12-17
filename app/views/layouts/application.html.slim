@@ -13,5 +13,6 @@ html
   body
     div class="hidden" id="user-id" data-user-id="#{current_user&.id}"
     = render 'shared/nav'
+    =render 'shared/search'
     = render 'shared/flash'
     = yield

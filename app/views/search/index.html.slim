@@ -1,0 +1,21 @@
+h1 = "Search results for: #{@query}"
+
+-if @response.is_a?(Hash)
+  - @response.each do |key, value|
+    h3 = "#{key.capitalize}:"
+    -if @response[key].present?
+      - @response[key].each do |res|
+        p = render "#{key.singularize}", resource: res
+    - else
+      p = "No #{key} searched for this query..."
+
+- else
+  h3 = "#{@model}"
+  -if @response.present?
+    - @response.each do |res|
+      -if res.is_a?(@model.singularize.constantize)
+          p = render "#{@model.singularize.downcase}", resource: res
+  - else
+    p No results for this search...
+
+p = link_to 'Back to Questions', questions_path

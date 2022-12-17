@@ -11,5 +11,11 @@ FactoryBot.define do
     trait :invalid do
       body { nil }
     end
+
+    trait :reindex do
+      after(:create) do |answer, _evaluator|
+        answer.reindex(refresh: true)
+      end
+    end
   end
 end

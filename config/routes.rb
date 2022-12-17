@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   root 'questions#index'
 
+  get '/search', to: 'search#index'
+
   concern :commentable do
     resources :comments, shallow: true, only: [:create]
   end
