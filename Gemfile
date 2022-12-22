@@ -37,11 +37,6 @@ gem 'whenever', require: false
 gem 'elasticsearch-rails'
 gem 'elasticsearch-model'
 gem 'searchkick', '4.6.3'
-gem 'capistrano', require: false
-gem 'capistrano-bundler', require: false
-gem 'capistrano-rails', require: false
-gem 'capistrano-rvm', require: false
-gem 'capistrano-passenger', require: false
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -50,6 +45,12 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'dotenv-rails'
   gem 'action-cable-testing'
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-passenger', require: false
+  gem 'capistrano-sidekiq', require: false
 end
 
 group :development do
