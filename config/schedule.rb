@@ -17,4 +17,8 @@ every 1.day, at: '10:00 am' do
   runner "DailyDigestJob.perform_now"
 end
 
+every 10.minutes do
+  rake 'searchkick:reindex:all'
+end
+
 # Learn more: http://github.com/javan/whenever
