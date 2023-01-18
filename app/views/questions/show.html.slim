@@ -1,29 +1,30 @@
-= render partial: "question_show", object: @question
+- cache @question do
+  = render partial: "question_show", object: @question
 
-h2 Answers
-ol.answers
-  - if @question.best_answer != nil
-    = render 'answers/best_answer', resource: @best_answer
-  = render @answers
+  h2 Answers
+  ol.answers
+    - if @question.best_answer != nil
+      = render 'answers/best_answer', resource: @best_answer
+    = render @answers
 
-.answer-errors
-  = render 'shared/errors', resource: @answer
+  .answer-errors
+    = render 'shared/errors', resource: @answer
 
-= form_with model: [@question, @answer], class: 'new-answer', local: false do |form|
-  = form.label :body
-  = form.text_area :body, id: :answer_body, name: 'answer[body]', rows: 7, cols: 60
-  = form.label :files
-  = form.file_field :files, multiple: true, direct_upload: true
+  = form_with model: [@question, @answer], class: 'new-answer', local: false do |form|
+    = form.label :body
+    = form.text_area :body, id: :answer_body, name: 'answer[body]', rows: 7, cols: 60
+    = form.label :files
+    = form.file_field :files, multiple: true, direct_upload: true
 
-  p#links Links:
-  = form.fields_for :links do |l|
-    = render 'link_fields', f: l
+    p#links Links:
+    = form.fields_for :links do |l|
+      = render 'link_fields', f: l
 
-  = link_to_add_association 'add link', form, :links, \
-                                        'data-association-insertion-node' => '.nested-fields', \
-                                        'data-association-insertion-method' => 'after'
+    = link_to_add_association 'add link', form, :links, \
+                                          'data-association-insertion-node' => '.nested-fields', \
+                                          'data-association-insertion-method' => 'after'
 
-  = form.submit 'Add Answer'
+    = form.submit 'Add Answer'
 
-p = link_to 'Back to Questions', questions_path
+  p = link_to 'Back to Questions', questions_path
 

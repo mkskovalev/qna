@@ -5,6 +5,7 @@ h1 Все вопросы
 
 br
 br
-.questions
-  = render @questions
+- cache collection_cache_key_for :question do
+  .questions
+    = render @questions
 

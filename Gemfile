@@ -38,6 +38,7 @@ gem 'elasticsearch-rails'
 gem 'elasticsearch-model'
 gem 'searchkick', '4.6.3'
 gem 'unicorn'
+gem 'redis-rails'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
