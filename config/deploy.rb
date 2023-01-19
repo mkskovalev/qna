@@ -17,3 +17,12 @@ append :linked_files, "config/database.yml", 'config/master.key'
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "tmp/webpacker", "public/system", "vendor", "storage"
 
 after 'deploy:publishing', 'unicorn:restart'
+
+namespace :config do
+  desc "Symlink application config files."
+  task :symlink do
+    run "ln -s {#{shared_path},#{release_path}}/.env"
+  end
+end
+
+after "deploy", "config:symlink"
