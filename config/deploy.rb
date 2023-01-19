@@ -22,7 +22,7 @@ namespace :config do
   desc "Symlink application config files."
   task :env_symlink do
     on roles(:app) do
-      execute "ln -s {#{shared_path},#{release_path}/config/app_environment_variables.rb"
+      execute "ln -s #{shared_path}/config/app_environment_variables.rb #{release_path}/config/app_environment_variables.rb"
     end
   end
 end
