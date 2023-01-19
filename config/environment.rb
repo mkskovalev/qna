@@ -7,7 +7,7 @@ load(app_environment_variables) if File.exists?(app_environment_variables)
 
 ActionMailer::Base.delivery_method = :sendmail
 ActionMailer::Base.smtp_settings = {
-    :domain  => 'localhost'
+    domain: 'localhost'
 }
 
 # Initialize the Rails application.
