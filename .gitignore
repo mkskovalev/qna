@@ -38,3 +38,4 @@ yarn-debug.log*
 /config/database.yml
 .env
 id_rsa.pub
+/config/app_environment_variables.rb
