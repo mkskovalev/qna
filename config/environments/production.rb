@@ -92,7 +92,7 @@ Rails.application.configure do
   # config.action_mailer.default_options = {from: 'no-reply@example.com'}
 
   # YANDEX
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: '89.223.70.71' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     :tls => true,
