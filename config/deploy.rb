@@ -20,9 +20,11 @@ after 'deploy:publishing', 'unicorn:restart'
 
 namespace :config do
   desc "Symlink application config files."
-  task :symlink do
-    run "ln -s {#{shared_path},#{release_path}}/.env"
+  task :env_symlink do
+    on roles(:app) do
+      execute "ln -s {#{shared_path},#{release_path}}/.env"
+    end
   end
 end
 
-after "deploy", "config:symlink"
+after "deploy", "config:env_symlink"
