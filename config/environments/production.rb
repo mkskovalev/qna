@@ -1,3 +1,5 @@
+require 'digest/sha2'
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -92,10 +94,13 @@ Rails.application.configure do
   # config.action_mailer.default_options = {from: 'no-reply@example.com'}
 
   # YANDEX
+  config.action_mailer.default = { 'Message-ID' => "<#{Digest::SHA2.hexdigest(Time.now.to_i.to_s)}@example.com>" }
   config.action_mailer.default_url_options = { host: '89.223.70.71' }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :tls => true,
+    enable_starttls_auto: true,
     address: 'smtp.yandex.ru',
     port: 465,
     domain: 'yandex.ru',
