@@ -102,9 +102,9 @@ Rails.application.configure do
     tls: true,
     enable_starttls_auto: true,
     address: 'smtp.yandex.ru',
-    port: 465,
+    port: '465',
     domain: 'yandex.ru',
-    authentication: 'plain',
+    authentication: :plain,
     user_name: ENV['YNDX_LOGIN'],
     password: ENV['YNDX_PASS']
   }
