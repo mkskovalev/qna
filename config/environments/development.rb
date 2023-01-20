@@ -43,8 +43,21 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-  config.action_mailer.delivery_method = :letter_opener
+  # config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
+
+  # YANDEX
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    tls: true,
+    enable_starttls_auto: true,
+    address: 'smtp.yandex.ru',
+    port: 465,
+    domain: 'yandex.ru',
+    authentication: 'plain',
+    user_name: ENV['YNDX_LOGIN'],
+    password: ENV['YNDX_PASS']
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
